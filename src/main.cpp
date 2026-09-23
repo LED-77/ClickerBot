@@ -72,7 +72,7 @@ void setup() {
   // UART — только для отладочного баннера при старте (версия прошивки).
   // UART is used only for the debug banner on boot (firmware version).
   Serial.begin(115200);
-  Serial.printf("ClickerBot DIY fw %s\n", FW_VERSION);
+  Serial.printf("ClickerBot fw %s\n", FW_VERSION);
 
   clickBtn.begin();
   menuBtn.begin();

@@ -2,16 +2,18 @@
 
 All notable changes to this project are documented in this file.
 
-## [2.1] — first public release
+## [2.1-diy] — first public release
 
 This release is the **offline** build of the device firmware: everything that
 belonged to the hosted service was removed, so a self-built device works with no
-server at all.
+server at all. The version string carries a `-diy` suffix, so a self-built device
+is easy to tell apart from an assembled one (which reports `2.1`).
 
 ### Added
 
 - Bilingual comments (Russian + English) throughout the firmware.
-- One-line version banner on UART0 in `setup()`: `ClickerBot DIY fw 2.1`.
+- One-line version banner on UART0 in `setup()`: `ClickerBot fw 2.1-diy`.
+- Version marker in the binary: `CLICKERFW:2.1-diy`.
 - Documentation: hardware wiring, build and flashing instructions, ESP-NOW
   protocol reference.
 - GitHub Actions workflow that builds the firmware on every push.

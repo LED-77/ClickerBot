@@ -135,6 +135,9 @@ skin up automatically through `counterKey()` / `statsSubCounter()`.
 - The firmware prints one banner line to UART0 at boot; on boards whose USB port
   is the native USB-Serial-JTAG you need `-D ARDUINO_USB_CDC_ON_BOOT=1` to see it
   in the USB serial monitor.
+- A build from this repository reports version **`2.1-diy`** (the same string sits
+  in the `.bin` as `CLICKERFW:2.1-diy`), so a self-built device is easy to tell
+  apart from an assembled one, which reports `2.1`.
 
 ## Scope
 

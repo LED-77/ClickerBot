@@ -22,7 +22,7 @@ pio run -t clean     # wipe the build directory
 
 Artifacts land in `.pio/build/esp32-c3-devkitm-1/`:
 
-| File | Flash offset | Size (v2.1) |
+| File | Flash offset | Size (v2.1-diy) |
 |---|---|---|
 | `bootloader.bin` | `0x0` | ~12 KB |
 | `partitions.bin` | `0x8000` | 3 KB |
@@ -30,6 +30,9 @@ Artifacts land in `.pio/build/esp32-c3-devkitm-1/`:
 
 Current resource usage of the application: **883 KB of the 2.5 MB** app partition
 (33.7 %), **49 KB RAM** (15.1 %).
+
+The build reports version `2.1-diy` on the UART banner, and the same string sits
+in the binary as `CLICKERFW:2.1-diy` (useful when reporting a problem).
 
 ## Flash over USB
 
@@ -57,11 +60,11 @@ esptool.py --chip esp32c3 --baud 460800 write_flash \
 Or build a single image and flash it at `0x0`:
 
 ```bash
-esptool.py --chip esp32c3 merge_bin -o clickerbot-2.1-merged.bin \
+esptool.py --chip esp32c3 merge_bin -o clickerbot-2.1-diy-merged.bin \
   --flash_mode dio --flash_freq 40m --flash_size 4MB \
   0x0 bootloader.bin 0x8000 partitions.bin 0x10000 firmware.bin
 
-esptool.py --chip esp32c3 --baud 460800 write_flash 0x0 clickerbot-2.1-merged.bin
+esptool.py --chip esp32c3 --baud 460800 write_flash 0x0 clickerbot-2.1-diy-merged.bin
 ```
 
 Both variants leave the `nvs` partition untouched, so click counters, the

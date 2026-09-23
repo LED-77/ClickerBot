@@ -27,7 +27,7 @@ body:
     attributes:
       label: Firmware version
       description: The banner line printed on boot, or the `CLICKERFW:` string inside the .bin
-      placeholder: "ClickerBot DIY fw 2.1"
+      placeholder: "ClickerBot fw 2.1-diy"
     validations:
       required: true
 

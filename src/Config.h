@@ -56,6 +56,8 @@ constexpr uint32_t WIFI_LONG_PRESS_MS = 3000; // удержание клик-к�
 constexpr uint32_t WIFI_TIMEOUT_MS = 300000;
 
 // ---------------- Версия / Version ----------------
-// Печатается в UART при старте и лежит меткой в .bin (FW_BIN_MARKER)
-// Printed to UART on boot and embedded in the .bin as a CLICKERFW: marker
-#define FW_VERSION "2.1"
+// Печатается в UART при старте и лежит меткой в .bin (FW_BIN_MARKER).
+// Суффикс -diy: сборка из открытого репозитория, без онлайн-лидерборда.
+// Printed to UART on boot and embedded in the .bin as a CLICKERFW: marker.
+// The -diy suffix marks a build from the open repository (no online leaderboard).
+#define FW_VERSION "2.1-diy"
