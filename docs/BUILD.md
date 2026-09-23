@@ -13,6 +13,19 @@ scripts, no vendored sources. Everything needed is in the repository.
 Dependencies are fetched automatically: `olikraus/U8g2 @ ^2.34.14` plus the
 `espressif32` platform and the Arduino framework.
 
+## Prebuilt firmware (no PlatformIO)
+
+If you just want the device running, flash the merged image that ships with the
+repository — no toolchain at all, only `esptool`:
+
+```bash
+esptool.py --chip esp32c3 --baud 460800 write_flash 0x0 clickerbot-2.1-diy-merged.bin
+```
+
+The file lives in [`firmware/`](../firmware/README.md) together with its SHA-256
+checksum and a Windows GUI alternative (Espressif's Flash Download Tool). It is
+the same build that CI produces from this repository — version `2.1-diy`.
+
 ## Build
 
 ```bash

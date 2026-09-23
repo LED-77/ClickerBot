@@ -64,6 +64,16 @@ Wiring table, divider diagram and electrical notes: **[docs/HARDWARE.md](docs/HA
 
 ## Quick start
 
+**Flash the ready-made image** (nothing to install but `esptool`) — grab
+[`firmware/clickerbot-2.1-diy-merged.bin`](firmware/clickerbot-2.1-diy-merged.bin)
+and write it at offset `0x0`:
+
+```bash
+esptool.py --chip esp32c3 --baud 460800 write_flash 0x0 clickerbot-2.1-diy-merged.bin
+```
+
+**Or build from source:**
+
 1. Install [PlatformIO](https://platformio.org/) (VS Code extension, or
    `pip install platformio`).
 2. Build and flash from the repository root:
@@ -74,8 +84,9 @@ Wiring table, divider diagram and electrical notes: **[docs/HARDWARE.md](docs/HA
 
 3. Optional: `pio device monitor -b 115200` to see the boot banner.
 
-Prebuilt binaries, `esptool` instructions, partition layout and troubleshooting:
-**[docs/BUILD.md](docs/BUILD.md)**.
+Details — what is inside the prebuilt image, `esptool` and Windows GUI
+instructions, partition layout, troubleshooting: **[docs/BUILD.md](docs/BUILD.md)**
+and **[firmware/README.md](firmware/README.md)**.
 
 ## Controls
 

@@ -10,6 +10,9 @@
 *.map
 *.merged.bin
 
+# ...but the ready-to-flash image shipped inside the repository stays
+!firmware/*.bin
+
 # OS cruft
 .DS_Store
 Thumbs.db

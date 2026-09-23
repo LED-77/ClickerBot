@@ -66,6 +66,16 @@ English version: **[README.md](README.md)**
 
 ## Быстрый старт
 
+**Прошить готовый образ** — из инструментов нужен только `esptool`: возьмите
+[`firmware/clickerbot-2.1-diy-merged.bin`](firmware/clickerbot-2.1-diy-merged.bin)
+и залейте его по адресу `0x0`:
+
+```bash
+esptool.py --chip esp32c3 --baud 460800 write_flash 0x0 clickerbot-2.1-diy-merged.bin
+```
+
+**Или собрать из исходников:**
+
 1. Установите [PlatformIO](https://platformio.org/) (расширение для VS Code или
    `pip install platformio`).
 2. Сборка и прошивка из корня репозитория:
@@ -76,8 +86,9 @@ English version: **[README.md](README.md)**
 
 3. При желании: `pio device monitor -b 115200`, чтобы увидеть строку версии.
 
-Готовые бинарники, инструкция для `esptool`, разметка flash и разбор проблем:
-**[docs/BUILD.md](docs/BUILD.md)** (на английском).
+Подробности — что внутри готового образа, команды `esptool`, GUI-вариант для
+Windows, разметка flash и разбор проблем: **[docs/BUILD.md](docs/BUILD.md)** и
+**[firmware/README.md](firmware/README.md)**.
 
 ## Управление
 

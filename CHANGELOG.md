@@ -14,6 +14,8 @@ is easy to tell apart from an assembled one (which reports `2.1`).
 - Bilingual comments (Russian + English) throughout the firmware.
 - One-line version banner on UART0 in `setup()`: `ClickerBot fw 2.1-diy`.
 - Version marker in the binary: `CLICKERFW:2.1-diy`.
+- Ready-to-flash merged image in `firmware/` (with a SHA-256 checksum), so the
+  device can be flashed without installing PlatformIO.
 - Documentation: hardware wiring, build and flashing instructions, ESP-NOW
   protocol reference.
 - GitHub Actions workflow that builds the firmware on every push.
