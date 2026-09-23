@@ -1,11 +1,17 @@
 # ClickerBot — device firmware
 
-Firmware for an anti-stress clicker built on **ESP32-C3**: a tiny 72×40 OLED, two
-buttons, seven animated "skins", per-skin click statistics, a battery gauge with
-automatic deep sleep — plus two local multiplayer games over **ESP-NOW** (no
-router, no internet).
+Firmware for an anti-stress clicker built on **ESP32-C3**: a tiny 72×40 OLED, one
+click button plus the two buttons that are already on the board (`BOOT` — the
+menu, and `RESET` — for flashing), seven animated "skins", per-skin click
+statistics, a battery gauge with automatic deep sleep — plus two local
+multiplayer games over **ESP-NOW** (no router, no internet).
 
 Русская версия: **[README.ru.md](README.ru.md)**
+
+> **A ready-made device** can be bought on the project website —
+> **[clickerbot.net](https://clickerbot.net/)**. The firmware here is the same
+> device code without the online leaderboard, so a self-built clicker works
+> completely offline; an assembled one additionally syncs clicks there.
 
 This repository holds the **device firmware only**, and it is fully **offline**.
 There is no account, no cloud sync and no device provisioning: except for the
@@ -40,8 +46,8 @@ ESP-NOW.
   crossed-out icon below 5 %, immediate deep sleep to avoid brownout reset loops.
 - **Power saving**: 20 s without activity → minimal picture, 20 s more → deep
   sleep; any click on the main button wakes the device up with a splash screen.
-- **"Ready to flash" screen**: hold the board button for 5 s before pressing
-  RESET, so you can see when the chip is safe to flash.
+- **"Ready to flash" screen**: hold the menu (`BOOT`) button for 5 s before
+  pressing `RESET`, so you can see when the chip is safe to flash.
 
 ## Hardware
 
@@ -49,8 +55,9 @@ ESP-NOW.
 |---|---|
 | MCU | ESP32-C3 (4 MB flash), e.g. a DevKitM-1 style board |
 | Display | SSD1306 OLED **72×40**, I2C: SDA `GPIO5`, SCL `GPIO6`, 400 kHz |
-| Click button | `GPIO3` to GND, internal pull-up (also the deep-sleep wake source) |
-| Menu button | `GPIO9` (the `BOOT` button on most boards) to GND |
+| Click button | `GPIO3` to GND, internal pull-up (also the deep-sleep wake source) — the only button you add |
+| Menu button | the on-board `BOOT` button, `GPIO9` to GND |
+| Reset button | the on-board `RESET` button — the firmware does not read it; it reboots the chip and is used to enter the flashing mode |
 | Battery sense | 47k/47k divider: mid-point → `GPIO0` (ADC), low side → `GPIO20` |
 
 Wiring table, divider diagram and electrical notes: **[docs/HARDWARE.md](docs/HARDWARE.md)**.
@@ -74,14 +81,15 @@ Prebuilt binaries, `esptool` instructions, partition layout and troubleshooting:
 
 | Button | Action | Result |
 |---|---|---|
-| Click (`GPIO3`) | click | skin interaction (pol, burst, roll…) |
+| Click (`GPIO3`) | click | skin interaction (pop, burst, roll…) |
 | Click | hold 3 s | statistics screen |
 | Click | hold, in the menu | Wi-Fi screen |
 | Click | hold 1 s, in Duel / KOTH | challenge an opponent / start a round |
 | Click | short release, in Duel / KOTH | page through opponents / accept |
-| Menu (`GPIO9`) | hold 1 s | open the menu, or confirm the selection and exit |
-| Menu | hold 5 s | "ready to flash" screen (then BOOT + RESET) |
-| Menu | click | exit the Wi-Fi screen |
+| Menu / `BOOT` (`GPIO9`) | hold 1 s | open the menu, or confirm the selection and exit |
+| Menu / `BOOT` | hold 5 s | "ready to flash" screen (then `BOOT` + `RESET`) |
+| Menu / `BOOT` | click | exit the Wi-Fi screen |
+| `RESET` | press | reboot; hold `BOOT`, press and release `RESET`, then release `BOOT` to enter the flashing mode |
 | — | 20 s idle | minimal picture, then deep sleep |
 
 In the Wi-Fi screen a click switches between access point and client mode.
@@ -132,7 +140,8 @@ skin up automatically through `counterKey()` / `statsSubCounter()`.
 
 The online leaderboard, device provisioning and the production flasher are **not**
 part of this repository. This firmware is intentionally self-contained, so that a
-self-built device works without any server.
+self-built device works without any server. The leaderboard — and the assembled
+device itself — live on the project website, **[clickerbot.net](https://clickerbot.net/)**.
 
 ## License
 

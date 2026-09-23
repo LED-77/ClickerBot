@@ -9,8 +9,8 @@ matches the constants in [`src/Config.h`](../src/Config.h).
 |---|---|---|
 | 1 | ESP32-C3 board with 4 MB flash | any DevKitM-1 style module with a native USB port |
 | 2 | OLED module, **SSD1306 72×40**, I2C | the "ER" 72×40 variant — U8g2 has no stock constructor for it, so the firmware defines its own (see `src/hal/DisplayManager.h`) |
-| 3 | Push button (main click) | wired to GND, internal pull-up in firmware |
-| 4 | Push button (menu) | can be the on-board `BOOT` button |
+| 3 | Push button (main click) | the only button you add: wired to GND, internal pull-up in firmware |
+| 4 | On-board buttons | `BOOT` (used as the menu button) and `RESET` (rebooting / flashing) — already present on any dev board |
 | 5 | Li-ion / LiPo cell, 3.7 V | 4.2 V full, 3.3 V empty per firmware thresholds |
 | 6 | Resistors 47k ×2 | battery divider |
 | 7 | Charger module (e.g. TP4056) | required if you charge the cell in place |
@@ -69,12 +69,17 @@ Unused for the firmware: `GPIO1`, `GPIO2`, `GPIO4`, `GPIO7`, `GPIO8`, `GPIO10`,
 
 ## Buttons
 
-Both buttons are active-low with the internal pull-up enabled in `Button::begin()`.
+The device uses **three buttons**: one click button that you add, plus the two
+buttons already on the board — `BOOT` (menu) and `RESET` (rebooting and flashing).
+The click button and `BOOT` are active-low with the internal pull-up enabled in
+`Button::begin()`; `RESET` is wired to the chip's reset line and is not read by
+the firmware.
 
 | Button | Pin | Behaviour in firmware |
 |---|---|---|
 | Click | `GPIO3` | skin interaction; hold 3 s → statistics; hold in the menu → Wi-Fi screen |
-| Menu | `GPIO9` | hold 1 s → menu / confirm and exit; hold 5 s → "ready to flash" screen; click → leave the Wi-Fi screen |
+| Menu (`BOOT`) | `GPIO9` | hold 1 s → menu / confirm and exit; hold 5 s → "ready to flash" screen; click → leave the Wi-Fi screen |
+| Reset | — | reboots the chip; hold `BOOT`, press and release `RESET`, then release `BOOT` to enter the download mode |
 
 `GPIO3` is also the wake source: `WAKE_PIN_MASK = 1ULL << PIN_CLICK_BUTTON` with
 `ESP_GPIO_WAKEUP_GPIO_LOW`, so a click brings the device out of deep sleep and
