@@ -1,0 +1,3 @@
+# Keep LF in the repository and in working copies, so that Windows editors and
+# the Linux-based CI see the same bytes.
+* text=auto eol=lf

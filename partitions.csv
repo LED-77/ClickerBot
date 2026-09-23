@@ -1,0 +1,12 @@
+# ESP32-C3, 4 МБ, без OTA: один app-раздел 2.5 МБ (app0+app1 из схемы "default"
+# объединены) — весь запас flash отдан под код.
+# ESP32-C3, 4 MB, no OTA: a single 2.5 MB app partition (app0+app1 of the
+# default scheme merged) — the whole flash budget goes to the application.
+# nvs на 0x9000: ник, счётчики кликов и WiFi переживают перепрошивку.
+# nvs at 0x9000: nickname, click counters and WiFi survive a reflash.
+#
+# Name,   Type, SubType,  Offset,   Size,    Flags
+nvs,      data, nvs,      0x9000,   0x5000,
+otadata,  data, ota,      0xe000,   0x2000,
+app0,     app,  factory,  0x10000,  0x280000,
+spiffs,   data, spiffs,   0x290000, 0x170000,

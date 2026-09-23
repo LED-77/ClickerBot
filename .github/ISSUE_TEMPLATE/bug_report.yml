@@ -1,0 +1,46 @@
+name: Bug report
+description: Something does not work as expected
+title: "[bug] "
+labels: ["bug"]
+body:
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened
+      description: What did you expect, and what actually happened?
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. flash the firmware with ...
+        2. open the ... skin
+        3. hold the button for ...
+    validations:
+      required: true
+
+  - type: input
+    id: version
+    attributes:
+      label: Firmware version
+      description: The banner line printed on boot, or the `CLICKERFW:` string inside the .bin
+      placeholder: "ClickerBot DIY fw 2.1"
+    validations:
+      required: true
+
+  - type: input
+    id: board
+    attributes:
+      label: Board / flash chip
+      description: Board name, and the output of `esptool.py flash_id` if you can read it
+
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Checklist
+      options:
+        - label: The firmware was built from this repository without local modifications
+        - label: The problem still happens after `esptool.py erase_flash` and a fresh flash
