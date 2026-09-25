@@ -17,3 +17,6 @@
 .DS_Store
 Thumbs.db
 desktop.ini
+
+# Windows Explorer thumbnail cache generated next to the images
+**/.thumb/
