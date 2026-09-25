@@ -1,33 +1,37 @@
 # Hardware
+Русская версия: **[HARDWARE.ru.md](HARDWARE.ru.md)**
 
-Wiring, pinout and electrical notes for the ClickerBot device. Everything here
-matches the constants in [`src/Config.h`](../src/Config.h).
+Wiring diagram, assembly diagram, pinout and electrical notes for the ClickerBot device. Everything here matches the constants in [`src/Config.h`](../src/Config.h).
 
-## Bill of materials
+The 3D-printable enclosure model files (STL) live here: [`STL`](../STL/)
 
-| # | Part | Notes |
-|---|---|---|
-| 1 | ESP32-C3 board with 4 MB flash | any DevKitM-1 style module with a native USB port |
-| 2 | OLED module, **SSD1306 72×40**, I2C | the "ER" 72×40 variant — U8g2 has no stock constructor for it, so the firmware defines its own (see `src/hal/DisplayManager.h`) |
-| 3 | Push button (main click) | the only button you add: wired to GND, internal pull-up in firmware |
-| 4 | On-board buttons | `BOOT` (used as the menu button) and `RESET` (rebooting / flashing) — already present on any dev board |
-| 5 | Li-ion / LiPo cell, 3.7 V | 4.2 V full, 3.3 V empty per firmware thresholds |
-| 6 | Resistors 47k ×2 | battery divider |
-| 7 | Charger module (e.g. TP4056) | required if you charge the cell in place |
+<img src="../img/assembl.png">
+
+## Parts
+
+| Part | Item |
+|---|---|
+| Microcontroller | ESP32-C3 0.42-Inch OLED White Light Display Development Board |
+| Click button | Cherry MX Gateron Mechanical Keyboard |
+| Charge controller | TP4056 Lithium Battery Charger Module |
+| Battery | Li-Pol 402030 200 mAh 3.7 V |
+| Battery sense | 47k/47k resistor divider: mid-point → `GPIO0` (ADC), low side → `GPIO20` |
+
+<img src="../img/prepar.png">
+
+Before assembly, prepare the ESP32-C3 controller board and the battery charger board:
+- On the ESP32-C3 board, remove the "Power" LED to extend the clicker's runtime on battery in deep sleep. On the back of the controller, remove the protection diode between the USB port and the 3.3 V converter. Solder the power wires in place of that diode, so the battery charges through the board's own USB port.
+- On the charger board, remove the USB port. Replace resistor R3 with a 10–12 kΩ one, to suit a 200 mAh battery.
+
+<img src="../img/circuit.png">
 
 ## Pinout
 
 | GPIO | Direction | Purpose | Notes |
 |---|---|---|---|
-| `GPIO0` | ADC input | battery mid-point | `ADC1_CH0`, read once per wake-up |
+| `GPIO0` | ADC input | battery divider mid-point | `ADC1_CH0`, read once per wake-up |
 | `GPIO3` | input, pull-up | main click button | also the deep-sleep wake source (`WAKE_PIN_MASK`) |
-| `GPIO5` | I2C SDA | OLED data | `U8G2_R0, SDA = 5` |
-| `GPIO6` | I2C SCL | OLED clock | bus clock 400 kHz |
-| `GPIO9` | input, pull-up | menu button | on most boards this is the `BOOT` button |
 | `GPIO20` | output / high-Z | battery divider low side | grounded while measuring, released before deep sleep |
-
-Unused for the firmware: `GPIO1`, `GPIO2`, `GPIO4`, `GPIO7`, `GPIO8`, `GPIO10`,
-`GPIO18`, `GPIO19` (USB D−/D+ on boards with native USB).
 
 ## Battery divider
 
@@ -46,12 +50,11 @@ Unused for the firmware: `GPIO1`, `GPIO2`, `GPIO4`, `GPIO7`, `GPIO8`, `GPIO10`,
 - With equal resistors the ADC sees exactly half of the battery voltage; the
   firmware multiplies by `BATT_DIVIDER = 2.0`.
 - The divider draws only ~45 µA, and `Battery::sleepSafe()` puts `GPIO20` into a
-  high-impedance state before deep sleep so it does not drain the cell overnight.
-- Thresholds (edit in `Config.h`): `BATT_FULL_MV = 4200`,
-  `BATT_EMPTY_MV = 3300`, `BATT_CRITICAL_PERCENT = 5`. Below the critical level
-  the device shows a crossed-out battery and goes to deep sleep immediately —
-  near empty, the cell's voltage sag otherwise puts the ESP32 into a brownout
-  reset loop.
+  high-impedance state before deep sleep so it does not drain the cell.
+- Thresholds (edit in `Config.h`): `BATT_FULL_MV = 4200`, `BATT_EMPTY_MV = 3300`,
+  `BATT_CRITICAL_PERCENT = 5`. Below the critical level the device shows a
+  crossed-out battery and goes to deep sleep immediately — near empty, the cell's
+  voltage sag otherwise puts the ESP32 into a brownout reset loop.
 
 > **`GPIO20` doubles as `U0RXD`** on the ESP32-C3. The firmware only ever writes
 > to UART0 (the boot banner), and `Battery::begin()` drives the pin, so UART
@@ -85,6 +88,8 @@ the firmware.
 `ESP_GPIO_WAKEUP_GPIO_LOW`, so a click brings the device out of deep sleep and
 through `setup()` (which is where the battery is measured and the splash screen is
 drawn).
+
+<img src="../img/install.png">
 
 ## Flashing the chip
 

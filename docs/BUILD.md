@@ -3,6 +3,8 @@
 The project is a plain [PlatformIO](https://platformio.org/) project — no custom
 scripts, no vendored sources. Everything needed is in the repository.
 
+Русская версия: **[BUILD.ru.md](BUILD.ru.md)**
+
 ## Requirements
 
 - [PlatformIO Core](https://docs.platformio.org/en/latest/core/installation/) 6.x
